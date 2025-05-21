@@ -1,6 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
+.glass {
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 body {
-    background-color: black;
-    color: white;
+    background: linear-gradient(to right bottom, orange, purple);
+    min-height: 100vh;
+    background-repeat: no-repeat;
 }

@@ -1,26 +1,16 @@
-#main {
-    background-color: black;
-}
-
-.option {
-    border: solid white;
-    border-width: 1px 1px 0 1px;
-    border-radius: 1rem 5rem 0 0;
-    cursor: pointer;
-}
-
-textarea {
-    color: white;
-    background-color: rgb(24, 24, 24);
-    min-width: 100%;
-}
-
 #title {
     margin: 1rem;
 }
 
+#content{
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.486);
+    border-radius: 0.5em;
+    min-width: 100%;
+    margin-bottom: 2em;
+    padding: 2em;
+}
+
 #textAreaOuter {
-    border: solid white;
-    border-width: 0 1px 1px 1px;
-    border-radius: 0 0 1rem 1rem;
+    border-radius: 1rem;
 }

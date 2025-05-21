@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-editor',
@@ -6,12 +6,23 @@ import { Component, Input } from '@angular/core';
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.scss'
 })
-export class EditorComponent {
+export class EditorComponent implements OnInit {
+  @Input() text? : String;
   @Input() textTitle? : String;
-  editable = true;
+  unformattedText? : String;
+  switched = true;
 
-  public toggleEditable() {
-    this.editable = !this.editable;
+  ngOnInit(): void {
+      this.formatText();
   }
+
+  public switchText() : void {
+    let temp = this.text;
+    this.text = this.unformattedText;
+    this.unformattedText = temp;
+    this.switched = !this.switched;
+  }
+
+  public formatText() : void {}
 
 }
