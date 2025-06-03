@@ -5,6 +5,13 @@ import { Injectable } from '@angular/core';
 })
 export class ZSFMToHTMLService {
 
+  private replaceAll(search : string, target : string, replace : string) : string {
+    while (search.indexOf(target) !== -1) {
+      search = search.substring(0, search.indexOf(target)) + replace + search.substring(search.indexOf(target)+target.length);
+    }
+    return search;
+  }
+
   private replace(search : string, target : string, replace : string) : string {
     if (search.indexOf(target) !== -1) {
       search = search.substring(0, search.indexOf(target)) + replace + search.substring(search.indexOf(target)+target.length);
@@ -39,6 +46,9 @@ export class ZSFMToHTMLService {
   public ZSFMToHTML(zsfm : string) : string {
     let html = zsfm;
     // order is important
+    html = this.replaceAll(html, "<", "&lt;");
+    html = this.replaceAll(html, ">", "&gt;");
+    html = this.replaceAndSurroundAll(html, "### ", "\n", "<h3>", "</h3>");
     html = this.replaceAndSurroundAll(html, "### ", "\n", "<h3>", "</h3>");
     html = this.replaceAndSurroundAll(html, "## ", "\n", "<h2>", "</h2>");
     html = this.replaceAndSurroundAll(html, "# ", "\n", "<h1>", "</h1>");
