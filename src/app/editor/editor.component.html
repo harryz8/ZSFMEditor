@@ -6,7 +6,7 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-10" id="editor">
                     <h2 id="title">{{ textTitle ? textTitle : "Text" }}</h2>
-                    <div #content id="content" [contentEditable]="true" (focus)="switchText()" (blur)="switchText()">{{ text }}</div>
+                    <div #content id="content" [contentEditable]="!this.switched" tabindex="0" (focus)="switchText()" (blur)="switchText()"></div>
                 </div>
             </div>
         </div>

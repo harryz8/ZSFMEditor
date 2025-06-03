@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, ViewChild } from '@angular/core';
+import { ZSFMToHTMLService } from '../zsfmto-html.service';
 
 @Component({
   selector: 'app-editor',
@@ -7,22 +8,36 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrl: './editor.component.scss'
 })
 export class EditorComponent implements OnInit {
-  @Input() text? : String;
-  @Input() textTitle? : String;
-  unformattedText? : String;
+  protected converter = inject(ZSFMToHTMLService);
+
+  @Input() text? : string;
+  @Input() textTitle? : string;
+  unformattedText = "";
   switched = true;
 
   ngOnInit(): void {
-      this.formatText();
+    if (this.text) {
+      this.unformattedText = this.text;
+      this.text = this.converter.ZSFMToHTML(this.text);
+      (document.getElementById("content") as HTMLDivElement).innerHTML = this.text;
+    }
   }
 
   public switchText() : void {
-    let temp = this.text;
-    this.text = this.unformattedText;
-    this.unformattedText = temp;
+    if (this.switched) {      
+      if (this.text) {
+        this.text = this.converter.ZSFMToHTML(this.unformattedText);
+        (document.getElementById("content") as HTMLDivElement).innerText = this.unformattedText;
+      }
+    }
+    else {
+      if (this.text) {
+        this.unformattedText = (document.getElementById("content") as HTMLDivElement).innerText;
+        this.text = this.converter.ZSFMToHTML(this.unformattedText);
+        (document.getElementById("content") as HTMLDivElement).innerHTML = this.text;
+      }
+    }
     this.switched = !this.switched;
   }
-
-  public formatText() : void {}
 
 }
