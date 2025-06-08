@@ -1,5 +1,5 @@
 import { Component, inject, Input, OnInit, ViewChild } from '@angular/core';
-import { ZSFMToHTMLService } from '../zsfmto-html.service';
+import { ZSFMToHTMLService } from '../zsfmtohtml/zsfmto-html.service';
 
 @Component({
   selector: 'app-editor',

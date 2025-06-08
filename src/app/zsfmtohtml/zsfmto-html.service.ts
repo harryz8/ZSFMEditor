@@ -24,11 +24,11 @@ export class ZSFMToHTMLService {
     }
     let start = 0;
     for (let i = 0; i<iterator; i++) {
-      start += lines[i].length;
+      start += lines[i].length+1;
     }
     let end = -1;
-    for (let j = 0; j<=iterator2; j++) {
-      end == lines[j].length;
+    for (let j = 0; j<iterator2; j++) {
+      end += lines[j].length+1;
     }
     return [start, end];
   }
@@ -38,6 +38,7 @@ export class ZSFMToHTMLService {
     let newstring = "";
     for (let line of lines) {
       if (line.startsWith(target)) {
+        newstring += replace;
         newstring += line.substring(target.length);
       }
       else {
@@ -46,7 +47,7 @@ export class ZSFMToHTMLService {
       newstring += "\n";
     }
     newstring = newstring.substring(0, newstring.length-1);
-    return search;
+    return newstring;
   }
 
   private bookendAllStartsWithPatterns(search : string, pattern : string, startBookend : string, endBookend : string, deleteStartsWith : boolean) : string {
@@ -55,7 +56,11 @@ export class ZSFMToHTMLService {
       return search;
     }
     if (deleteStartsWith) {
-      return search.substring(0, a) + startBookend + this.replaceAllPrefixes(search.substring(a, b), pattern, "") + endBookend + this.bookendAllStartsWithPatterns(search.substring(b), pattern, startBookend, endBookend, deleteStartsWith);
+      return search.substring(0, a)
+      + startBookend 
+      + this.replaceAllPrefixes(search.substring(a, b), pattern, "") 
+      + endBookend 
+      + this.bookendAllStartsWithPatterns(search.substring(b), pattern, startBookend, endBookend, deleteStartsWith);
     }
     return search.substring(0, a) + startBookend + search.substring(a, b) + endBookend + this.bookendAllStartsWithPatterns(search.substring(b), pattern, startBookend, endBookend, deleteStartsWith);
   }
@@ -113,7 +118,7 @@ export class ZSFMToHTMLService {
     html = this.replaceAll(html, "£", "&pound;");
     html = this.replaceAll(html, "€", "&euro;");
 
-    html = bookendAllStartsWithPatterns(html, "&gt;", "<blockquote>", "</blockquote>", true);
+    html = this.bookendAllStartsWithPatterns(html, "&gt; ", "<blockquote>", "</blockquote>", true);
 
     html = this.replaceAll(html, "---", "<hr />");
 
