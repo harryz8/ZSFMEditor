@@ -117,7 +117,8 @@ export class ZSFMToHTMLService {
     html = this.replaceAll(html, "\'", "&apos;");
     html = this.replaceAll(html, "£", "&pound;");
     html = this.replaceAll(html, "€", "&euro;");
-
+    
+    // introducing < and >
     html = this.bookendAllStartsWithPatterns(html, "&gt; ", "<blockquote>", "</blockquote>", true);
 
     html = this.replaceAll(html, "---", "<hr />");
@@ -132,9 +133,24 @@ export class ZSFMToHTMLService {
     html = this.replaceAndSurroundAll(html, "### ", "END", "<h3>", "</h3>");
     html = this.replaceAndSurroundAll(html, "## ", "END", "<h2>", "</h2>");
     html = this.replaceAndSurroundAll(html, "# ", "END", "<h1>", "</h1>");
-    // introducing < and >
     html = this.replaceAll(html, "\n", "<br />");
-    html = this.replaceAll(html, "#", "&#35;")
+    html = this.replaceAll(html, "#", "&#35;");
+    while (html.search(/\[[^\n\]]*\]\([^\n\)]*\)/) !== -1) {
+      let start = html.search(/\[[^\n\]]*\]\([^\n\)]*\)/);
+      let description = "";
+      let i = start+1;
+      while (i < html.length && html[i] !== "]") {
+        description += html[i];
+        i++;
+      }
+      i = i + 2;
+      let link = "";
+      while (i < html.length && html[i] !== ")") {
+        link += html[i];
+        i++;
+      }
+      html = html.substring(0, start) + "<a href=\""+ link +"\">"+ description +"</a>" + html.substring(i+1);
+    }
     return html;
   }
 }
